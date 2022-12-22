@@ -12,20 +12,20 @@
 
 #include "../header/push_swap.h"
 
-int is_dup(t_stack *stack)
+int	is_dup(t_stack *stack)
 {
-    t_stack *lst;
+	t_stack *lst;
 
-    while (stack != NULL)
-    {
-        lst = stack -> next;
-        while (lst != NULL)
-        {
-            if (stack -> content == lst -> content)
-                return (1);
-            lst = lst -> next;
-        }
-        stack = stack -> next;
-    }
-    return (0);
+	while (stack != NULL)
+	{
+		lst = stack->next;
+		while (lst != NULL)
+		{
+			if (stack->content == lst->content)
+				return (1);
+			lst = lst->next;
+		}
+		stack = stack->next;
+	}
+	return (0);
 }

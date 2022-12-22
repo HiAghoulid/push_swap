@@ -12,21 +12,20 @@
 
 #include "../header/push_swap.h"
 
-int fill_stack(t_stack **stack, char **av, int ac)
+int	fill_stack(t_stack **stack, char **av, int ac)
 {
-    int i;
-    i = 0;
+	int i;
+	i = 0;
 
-    while (i < (ac - 1))
-    {
-        
-        ft_lstadd_back(stack, ft_lstnew(ft_atoi(av[i + 1])));
-        if ((ft_atoi(av[i + 1]) > INT_MAX) || !is_int(av[i + 1]))
-        {
-            ft_putstr("Error\n");
-            return (0);
-        }
-        i++;
-    }
-    return (1);
+	while (i < (ac - 1))
+	{
+		ft_lstadd_back(stack, ft_lstnew(ft_atoi(av[i + 1])));
+		if ((ft_atoi(av[i + 1]) > INT_MAX) || !is_int(av[i + 1]))
+		{
+			ft_putstr("Error\n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

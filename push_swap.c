@@ -6,166 +6,122 @@
 /*   By: haghouli <haghouli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:48:31 by haghouli          #+#    #+#             */
-/*   Updated: 2022/12/13 16:50:35 by haghouli         ###   ########.fr       */
+/*   Updated: 2022/12/22 12:01:57 by haghouli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./header/push_swap.h"
 
-void    swap_array(int *array, int len)
+char check_bigest_value(t_stack *p, int nb)
 {
-    int i;
-    int l;
-    int tmp;
-
-    i = 0;
-    l = len - 1;
-    while (i < len / 2)
-    {
-        tmp = array[i];
-        array[i] = array[l - i];
-        array[l - i] = tmp;
-        i++;
-    }    
+	while (p != NULL)
+	{
+		if (p -> content == nb)
+			return (1);
+		p = p -> next;
+	}
+	return (0);
 }
 
-int   *cpy_to_array(t_stack *stack)
+int bing_indice(t_stack *p, int num)
 {
-    int *array;
-    int i;
-
-    i = 0;
-    array = malloc(ft_lstsize(stack) * sizeof(int));
-    while (stack != NULL)
-    {
-        array[i++] = stack -> index;
-        stack = stack -> next;
-    }
-    return (array);
+	while (p != NULL)
+	{
+		if (num == p -> content)
+			return(p -> index);
+		p = p -> next;
+	}
+	return(0);
 }
 
-int find_small_from_top(t_stack *stack, int range, int chunck_size)
+int content_location(t_stack *p, int content)
 {
-    int i;
-    int *array;
-
-    i = 0;
-    array = cpy_to_array(stack);
-    while (i <= range)
-    {
-        if(array[i] <= chunck_size)
-            return (i);
-        i++;
-    }
-    free(array);
-    return (-1);
+  int i;
+  
+  i = 0;
+  while (content != p -> content)
+  {
+    i++;
+    p = p -> next;
+  }
+  return (i);
 }
 
-int find_small_from_bottom(t_stack *stack, int range, int chunck_size)
+int get_moves_first_num(t_stack *p, int nb)
 {
-    int i;
-    int *array;
-
-    i = 0;
-    array = cpy_to_array(stack);
-    swap_array(array, ft_lstsize(stack));
-    while (i < range)
-    {
-        if(array[i] < chunck_size)
-            return (i);
-        i++;
-    }
-    free(array);
-    return (-1);
+	int start = 0;
+	int i = content_location(p, nb) - start;
+	return (i);
 }
 
-void push_chunckes(t_stack **stack_a,t_stack **stack_b, int div)
+int get_moves_second_num(t_stack *p, int nb)
 {
-    int i = 0;
-    int size = ft_lstsize(*stack_a) / 2;
-    int chunck_size = ft_lstsize(*stack_a) / div;
-    int counter = chunck_size;
-    int j = 0;
-    while (j < div)
-    {
-        i = 0;
-        while (i < chunck_size)
-        {
-            int a = find_small_from_top(*stack_a, size, counter);
-            int b = find_small_from_bottom(*stack_a, size, counter);
-
-            if(a == 0)
-                push_b(stack_a, stack_b);
-            else if(b == -1)
-            {
-                while (a > 0)
-                {
-                    rotate_a(stack_a);
-                    a--;
-                }
-                push_b(stack_a, stack_b);
-            }
-            else if(a == -1)
-            {
-                while (b >= 0)
-                {
-                    reverse_rotate_a(stack_a);
-                    b--;
-                }
-                push_b(stack_a, stack_b);
-            }
-            else if(a <= b)
-            {
-                while (a > 0)
-                {
-                    rotate_a(stack_a);
-                    a--;
-                }
-                push_b(stack_a, stack_b);
-            }
-            else if(a > b)
-            {
-                while (b >= 0)
-                {
-                    reverse_rotate_a(stack_a);
-                    b--;
-                }
-                push_b(stack_a, stack_b);
-            }
-            i++;
-        }
-        j++;
-        counter += chunck_size;
-    }
+	int end = ft_lstsize(p) - 1;
+	int i = end - content_location(p, nb) + 1;
+	return (i);
 }
 
-void    push_groups(t_stack **stack_a, t_stack **stack_b)
+void back_to_stack_a(t_stack **stack_a, t_stack **stack_b, int *arr)
 {
-    while (*stack_b)
-    {
-        int	i;
-	    int	size;
+	int count;
+	int i;
 
-	    size = ft_lstsize(*stack_b);
-	    i = find_max(*stack_b);
-	    if (i > size / 2)
-	    {
-		    while (i < size)
-		    {
-			    reverse_rotate_b(stack_b);
-			i++;
+	count = 0;
+	i = ft_lstsize(*stack_b) - 1;
+	while (*stack_b)
+	{
+		if (check_bigest_value((*stack_b), arr[i]))
+		{ 
+			if ((*stack_b) -> content == arr[i])
+			{
+				push_a(stack_a, stack_b);
+				i--;
+			}
+			else
+			{
+				if (bing_indice(*stack_b, arr[i]) <= (ft_lstsize(*stack_b) - 1) / 2
+				&& get_moves_first_num(*stack_b, arr[i]) <= get_moves_second_num(*stack_b, arr[i]))
+				{
+					if (count == 0 || (*stack_b) -> content >  ft_lstlast(*stack_a)->content)
+					{
+						push_a(stack_a, stack_b);
+						if (ft_lstsize((*stack_a)) > 1)
+							rotate_a(stack_a);
+						count++;
+					}
+					else if (get_moves_first_num(*stack_b, arr[i]) <= get_moves_second_num(*stack_b, arr[i]))
+						rotate_b(stack_b);
+					else
+						reverse_rotate_b(stack_b);
+				}
+				else
+				{
+					if (count == 0 || (*stack_b) -> content >  ft_lstlast(*stack_a)->content)
+					{
+						push_a(stack_a, stack_b);
+						if (ft_lstsize((*stack_a)) > 1)
+							rotate_a(stack_a);
+						count++;
+					}
+					else if (get_moves_first_num(*stack_b, arr[i]) > get_moves_second_num(*stack_b, arr[i]))
+						reverse_rotate_b(stack_b);
+					else
+						rotate_b(stack_b);
+				}
+			}
 		}
-	    }
-	    else
-	    {
-		    while (i > 0)
-		    {
-			    rotate_b(stack_b);
-			    i--;
-		    }
-	    }
-        push_a(stack_a, stack_b);
-    }
+		else 
+		{
+			reverse_rotate_a(stack_a);
+			count--;
+			i--;
+		}
+	}
+	while(count > 0)
+	{
+		reverse_rotate_a(stack_a);
+		count--;
+	}
 }
 
 int main(int ac, char *av[])
@@ -175,30 +131,35 @@ int main(int ac, char *av[])
 
     stack_a = NULL;
     stack_b = NULL;
-    t_stack *tmp;
-    int div = 10;
-    int i = 0;
     if (ac < 2)
         return (0);
     if(!fill_stack(&stack_a, av, ac) || is_error(stack_a))
         return (0);
-    int t = ft_lstsize(stack_a) / div;
-    index_lst(stack_a);
-    push_chunckes(&stack_a, &stack_b, div);
-    // int max = find_max(stack_b);
-    // while (max > 0)
-    // {
-    //     rotate_b(&stack_b);
-    //     max--;
-    // }
-    // push_a(&stack_a, &stack_b);
-    push_groups(&stack_a, &stack_b);
-
+	index_lst(stack_a);
+	if(ft_lstsize(stack_a) && is_sorted_dec(stack_a))
+		swap_a(&stack_a);
+	else if(ft_lstsize(stack_a) == 3)
+		lthree_sort(&stack_a);
+	else if(ft_lstsize(stack_a) <= 5)
+		lfive_sort(&stack_a, &stack_b);
+	else if(ft_lstsize(stack_a) <= 100)
+	{
+    	push_shunckes(&stack_a, &stack_b, 4);
+        int *arr =  cpy_to_array(stack_b);
+		back_to_stack_a(&stack_a, &stack_b, arr);
+	}
+	else
+	{
+    	push_shunckes(&stack_a, &stack_b, 10);
+		int *arr =  cpy_to_array(stack_b);
+		back_to_stack_a(&stack_a, &stack_b, arr);
+	}
+	t_stack *tmp; 
     // if(is_sorted(stack_a))
-    //     printf("OK");
+    //     printf("OK\n");
     // else
-    //     printf("KO");
-    // printf("\nstack a :\n");
+    //     printf("KO\n");
+	// printf("\nstack a :\n");
     // tmp = stack_a;
     // while (tmp != NULL)
     // {
@@ -207,13 +168,9 @@ int main(int ac, char *av[])
     // }
     // printf("\nstack b :\n");
     // tmp = stack_b;
-    // i = 0;
     // while (tmp != NULL)
     // {
-    //     if(i % t == 0)
-    //         printf("\n");
     //     printf("%d ", tmp -> content);
-    //     i++;
     //     tmp = tmp -> next;
-    // } 
+    // }
 }

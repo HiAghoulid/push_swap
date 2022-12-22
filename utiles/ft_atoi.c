@@ -14,7 +14,7 @@
 
 static int	ft_isdigit(char c)
 {
-	if(c >= '0' && c <= '9')
+	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
 }
@@ -28,8 +28,8 @@ static int	is_space(char c)
 
 long	ft_atoi(const char *str)
 {
-	unsigned long	num;
-	unsigned long	sign;
+	unsigned long num;
+	unsigned long sign;
 
 	num = 0;
 	sign = 1;

@@ -12,29 +12,29 @@
 
 #include "../header/push_swap.h"
 
-static void ft_swap(int *a, int *b)
+static void	ft_swap(int *a, int *b)
 {
-    int tmp;
+	int	tmp;
 
-    tmp = *a;
-    *a = *b;
-    *b = tmp;
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
-void sort(int *list, int len)
+void	sort(int *list, int len)
 {
-    int i = 0;
-    int j = 0;
+	int i = 0;
+	int j = 0;
 
-    while(i < len)
-    {
-        j = i + 1;
-        while(j < len)
-        {
-            if(list[i] > list[j])
-                ft_swap(&list[i], &list[j]);
-            j++;
-        }
-        i++;
-    }
+	while (i < len)
+	{
+		j = i + 1;
+		while (j < len)
+		{
+			if (list[i] > list[j])
+				ft_swap(&list[i], &list[j]);
+			j++;
+		}
+		i++;
+	}
 }

@@ -12,24 +12,24 @@
 
 #include "../header/push_swap.h"
 
-int find_min(t_stack *stack)
+int	find_min(t_stack *stack)
 {
-    int i;
-    int min;
-    int index;
+	int i;
+	int min;
+	int index;
 
-    i = 0;
-    index = 0;
-    min = stack -> content;
-    while (stack != NULL)
-    {
-        if (stack -> content < min)
-        {
-            min = stack -> content;
-            index = i;
-        }
-        stack = stack -> next;
-        i++;
-    }
-    return (index);
+	i = 0;
+	index = 0;
+	min = stack->content;
+	while (stack != NULL)
+	{
+		if (stack->content < min)
+		{
+			min = stack->content;
+			index = i;
+		}
+		stack = stack->next;
+		i++;
+	}
+	return (index);
 }

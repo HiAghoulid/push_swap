@@ -23,9 +23,9 @@ void	ft_lstadd_back(t_stack **lst, t_stack *new)
 	else
 	{
 		t = *lst;
-		while (t -> next != NULL)
-			t = t -> next;
-		t -> next = new;
+		while (t->next != NULL)
+			t = t->next;
+		t->next = new;
 	}
 }
 
@@ -33,7 +33,7 @@ void	ft_lstadd_front(t_stack **lst, t_stack *new)
 {
 	if (new == 0)
 		return ;
-	new -> next = *lst;
+	new->next = *lst;
 	*lst = new;
 }
 
@@ -44,8 +44,8 @@ t_stack	*ft_lstlast(t_stack *lst)
 	if (lst == NULL)
 		return (NULL);
 	t = lst;
-	while (t -> next != NULL)
-		t = t -> next;
+	while (t->next != NULL)
+		t = t->next;
 	return (t);
 }
 
@@ -56,20 +56,20 @@ t_stack	*ft_lstnew(int content)
 	head = (t_stack *)malloc(sizeof(t_stack));
 	if (!head)
 		return (NULL);
-	head -> content = content;
-	head -> index = 0;
-	head -> next = NULL;
+	head->content = content;
+	head->index = 0;
+	head->next = NULL;
 	return (head);
 }
 
 int	ft_lstsize(t_stack *lst)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	while (lst != NULL)
 	{
-		lst = lst -> next;
+		lst = lst->next;
 		i++;
 	}
 	return (i);

@@ -12,13 +12,13 @@
 
 #include "../header/push_swap.h"
 
-int is_sorted_dec(t_stack *stack)
+int	is_sorted_dec(t_stack *stack)
 {
-    while (stack -> next != NULL)
-    {
-        if (stack->content < stack->next->content)
-            return (0);
-        stack = stack->next;
-    }
-    return (1);
+	while (stack->next != NULL)
+	{
+		if (stack->content < stack->next->content)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
 }

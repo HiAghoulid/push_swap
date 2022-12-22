@@ -12,18 +12,18 @@
 
 #include "../header/push_swap.h"
 
-int is_int(char *str)
+int	is_int(char *str)
 {
-    int i;
+	int i;
 
-    i = 0;
-    if(*str == '-')
-        str++;
-    while (str[i])
-    {
-        if ((str[i] < '0') || (str[i] > '9'))
-            return (0);
-        i++;
-    }
-    return (1);
+	i = 0;
+	if (*str == '-')
+		str++;
+	while (str[i])
+	{
+		if ((str[i] < '0') || (str[i] > '9'))
+			return (0);
+		i++;
+	}
+	return (1);
 }

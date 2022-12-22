@@ -30,7 +30,7 @@ static size_t	count_word(char const *s, char c)
 	return (count);
 }
 
-static void	free_loc(char **s, int size )
+static void	free_loc(char **s, int size)
 {
 	int	i;
 
@@ -71,7 +71,7 @@ static char	**allocation(const char *s, char **splited_list, char c)
 			splited_list[j] = duplicate(s, start, i);
 			if (!splited_list[j])
 				free_loc(splited_list, j);
-				j++;
+			j++;
 			start = -1;
 		}
 		i++;
